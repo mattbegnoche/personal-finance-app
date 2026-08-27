@@ -16,9 +16,6 @@ export type TextPreset = keyof typeof TEXT_PRESET_CLASSES;
 /** Tags the Text component is allowed to render. */
 export type TextTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span";
 
-const DEFAULT_TEXT_TAG: TextTag = "p";
-const DEFAULT_TEXT_PRESET: TextPreset = "preset-4";
-
 export interface TextProps extends HTMLAttributes<HTMLElement> {
   /** Tag to render. Defaults to `p`. */
   as?: TextTag;
@@ -28,8 +25,8 @@ export interface TextProps extends HTMLAttributes<HTMLElement> {
 }
 
 export function Text({
-  as: Component = DEFAULT_TEXT_TAG,
-  preset = DEFAULT_TEXT_PRESET,
+  as: Component = "p",
+  preset = "preset-4",
   className,
   children,
   ...rest
