@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Text } from "@/components/ui/Text";
+import { DashboardTitle } from "@/components/dashboard/DashboardTitle";
 
 export const metadata: Metadata = {
   title: "Recurring Bills",
@@ -7,8 +7,8 @@ export const metadata: Metadata = {
 
 export default function RecurringBills() {
   return (
-    <Text as="h1" preset="preset-1">
-      Recurring Bills
-    </Text>
+    <>
+      <DashboardTitle text="Recurring Bills" />
+    </>
   );
 }

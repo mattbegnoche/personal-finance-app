@@ -25,7 +25,7 @@ export function MobileNav(): ReactElement {
       aria-label="Main"
       className="fixed inset-x-0 bottom-0 z-10 rounded-t-lg bg-grey-900 px-4 pt-2 lg:hidden"
     >
-      <ul className="mx-auto flex max-w-[800px] items-end justify-between">
+      <ul className="mx-auto flex max-w-200 items-end justify-between">
         {NAV_ITEMS.map((item) => {
           const isActive = isNavItemActive(item.href, pathname);
 

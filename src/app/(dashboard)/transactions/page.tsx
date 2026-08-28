@@ -1,14 +1,20 @@
+import { DashboardTitle } from "@/components/dashboard/DashboardTitle";
+import { Card } from "@/components/ui/Card";
 import type { Metadata } from "next";
-import { Text } from "@/components/ui/Text";
+
+const PAGE_NAME = "Transactions";
 
 export const metadata: Metadata = {
-  title: "Transactions",
+  title: PAGE_NAME,
 };
 
 export default function Transactions() {
   return (
-    <Text as="h1" preset="preset-1">
-      Transactions
-    </Text>
+    <>
+      <DashboardTitle text={PAGE_NAME} />
+      <div>
+        <Card>Hello</Card>
+      </div>
+    </>
   );
 }
