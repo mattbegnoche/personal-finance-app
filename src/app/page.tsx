@@ -1,11 +1,14 @@
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { Text } from "@/components/ui/Text";
 
 export default function Home() {
   return (
-    <main className="flex flex-1 flex-col">
-      <Text className="text-green" as="h1" preset="preset-1">
-        This is sample text
-      </Text>
+    <main>
+      <Card>
+        <Text className="mb-6">This is text</Text>
+        <Button>Hello This is a Button</Button>
+      </Card>
     </main>
   );
 }

@@ -15,11 +15,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${publicSans.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+    <html lang="en" className={`${publicSans.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col font-sans bg-beige-100">
+        {children}
+      </body>
     </html>
   );
 }

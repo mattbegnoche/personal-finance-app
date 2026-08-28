@@ -1,4 +1,10 @@
-import type { ButtonHTMLAttributes, ReactElement, ReactNode } from "react";
+import Link from "next/link";
+import type {
+  ButtonHTMLAttributes,
+  ComponentProps,
+  ReactElement,
+  ReactNode,
+} from "react";
 import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/cn";
 
@@ -18,35 +24,62 @@ const BUTTON_VARIANT_CLASSES = {
 
 export type ButtonVariant = keyof typeof BUTTON_VARIANT_CLASSES;
 
-const DEFAULT_BUTTON_VARIANT: ButtonVariant = "primary";
 const TERTIARY_ICON_SIZE = 12;
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonBaseProps {
   /** Visual style from the design system. Defaults to `primary`. */
   variant?: ButtonVariant;
   /** Render the trailing caret. Applies to the `tertiary` variant only. */
   showIcon?: boolean;
+  className?: string;
   children?: ReactNode;
 }
 
+/** Rendered as a `button`. */
+type ButtonAsButtonProps = ButtonBaseProps &
+  Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonBaseProps> & {
+    href?: never;
+  };
+
+/** Rendered as a Next `Link` — `href` selects this shape. */
+type ButtonAsLinkProps = ButtonBaseProps &
+  Omit<ComponentProps<typeof Link>, keyof ButtonBaseProps>;
+
+export type ButtonProps = ButtonAsButtonProps | ButtonAsLinkProps;
+
 export function Button({
-  variant = DEFAULT_BUTTON_VARIANT,
+  variant = "primary",
   showIcon = true,
-  type = "button",
   className,
   children,
   ...rest
 }: ButtonProps): ReactElement {
-  const hasTrailingIcon = variant === "tertiary" && showIcon;
+  const classes = cn(
+    BUTTON_BASE_CLASSES,
+    BUTTON_VARIANT_CLASSES[variant],
+    className,
+  );
+
+  const content = (
+    <>
+      {children}
+      {variant === "tertiary" && showIcon && (
+        <Icon name="caret-right" size={TERTIARY_ICON_SIZE} />
+      )}
+    </>
+  );
+
+  if (rest.href !== undefined) {
+    return (
+      <Link className={classes} {...rest}>
+        {content}
+      </Link>
+    );
+  }
 
   return (
-    <button
-      type={type}
-      className={cn(BUTTON_BASE_CLASSES, BUTTON_VARIANT_CLASSES[variant], className)}
-      {...rest}
-    >
-      {children}
-      {hasTrailingIcon && <Icon name="caret-right" size={TERTIARY_ICON_SIZE} />}
+    <button type="button" className={classes} {...rest}>
+      {content}
     </button>
   );
 }
