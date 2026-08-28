@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/Card";
-import { Container } from "@/components/ui/Container";
+import { Container } from "@/components/layout/Container";
 import { Text } from "@/components/ui/Text";
 import Image from "next/image";
 import { ReactNode } from "react";
