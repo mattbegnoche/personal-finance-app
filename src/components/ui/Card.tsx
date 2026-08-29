@@ -11,7 +11,7 @@ export type CardSize = keyof typeof CARD_SIZES;
 
 const CARD_THEME = {
   light: "bg-white",
-  dark: "bg-grey-900",
+  dark: "bg-grey-900 text-white",
 } as const;
 
 export type CardTheme = keyof typeof CARD_THEME;
