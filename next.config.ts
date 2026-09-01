@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  experimental: {
+    // Phosphor ships thousands of modules; load only the icons actually used.
+    optimizePackageImports: [
+      "@phosphor-icons/react",
+      "@phosphor-icons/react/ssr",
+    ],
+  },
 };
 
 export default nextConfig;

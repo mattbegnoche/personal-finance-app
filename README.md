@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Personal Finance App
+
+Track budgets, pots, recurring bills, and transactions.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+There is no backend and nothing to configure. Every page builds to static
+output, so the app can be deployed anywhere that serves files.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## How the data works
 
-## Learn More
+The sample data in [`db.json`](db.json) is bundled at build time and is what a
+visitor sees on their first visit. Anything they change — adding a budget,
+moving money into a pot — is kept in their own browser via `localStorage` and
+survives a refresh. Nothing leaves the device, and no two visitors share state.
+"Reset to sample data" at the foot of every page restores the original.
 
-To learn more about Next.js, take a look at the following resources:
+Two things are derived rather than stored, because `db.json` does not hold them:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Budget spending** is the sum of the month's debits in each category. The
+  file stores only the limit.
+- **Recurring bills** are the newest `recurring` debit per merchant. Whether one
+  is paid, upcoming or due soon follows from whether that charge landed in the
+  current month.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Both need a notion of "today". `src/lib/reference-date.ts` uses the newest
+transaction date, which tracks the real date with live data and keeps the views
+meaningful with the bundled data, which ends in August 2024.
 
-## Deploy on Vercel
+## Testing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm test          # single run
+pnpm test:watch    # watch mode
+pnpm test:coverage # with a coverage report
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Vitest covers the pure logic: formatting, pagination, query parsing, filtering,
+budget and bill derivation, form validation, the immutable mutations, and the
+storage round-trip.
+
+## Stack
+
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS v4
+- Zod for validating the seed data and anything read back from storage
+- Vitest for unit tests
+
+## Design
+
+Design system (colors, typography, spacing) lives in the
+[Figma style guide](https://www.figma.com/design/BNp9tEaqR9LapLfZN2MKxg/personal-finance-app?node-id=259-3803).
