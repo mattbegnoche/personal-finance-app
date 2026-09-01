@@ -26,7 +26,7 @@ export function MicroDetail({
         className={cn("w-1 shrink-0 rounded-lg", !color && "bg-grey-900")}
         style={color ? { backgroundColor: color } : undefined}
       />
-      <div className="flex min-w-0 flex-col gap-2">
+      <div className="flex min-w-0 flex-col gap-1">
         <Text preset="preset-5" className="text-grey-500 truncate">
           {title}
         </Text>

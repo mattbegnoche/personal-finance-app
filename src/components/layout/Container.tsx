@@ -2,7 +2,7 @@ import { cn } from "@/lib/cn";
 import { ReactNode } from "react";
 
 const CONTAINER_SIZES = {
-  md: "max-w-270",
+  md: "max-w-285",
   lg: "max-w-330",
 } as const;
 
