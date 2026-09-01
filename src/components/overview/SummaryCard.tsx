@@ -12,7 +12,7 @@ function SummaryCard({
 }) {
   return (
     <Card theme={theme}>
-      <Text preset="preset-4" as="h4" className="mb-3">
+      <Text preset="preset-4" as="h2" className="mb-3">
         {title}
       </Text>
       <Text preset="preset-1">{value}</Text>

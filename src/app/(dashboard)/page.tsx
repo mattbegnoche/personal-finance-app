@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { DashboardTitle } from "@/components/dashboard/DashboardTitle";
 import { Card } from "@/components/ui/Card";
-import { Text } from "@/components/ui/Text";
 import SummaryCard from "@/components/overview/SummaryCard";
+import { BudgetCard } from "@/components/overview/BudgetCard";
+import { NAV_ITEMS } from "@/lib/navigation";
 
 export const metadata: Metadata = {
   title: "Overview",
@@ -20,11 +21,11 @@ export default function Overview() {
         </div>
         <div className="grid-12 gap-sm">
           <div className="sm:col-span-7 grid gap-sm">
-            <Card>Pots</Card>
             <Card>Transactions</Card>
+            <Card>Pots</Card>
           </div>
           <div className="sm:col-span-5 grid gap-sm">
-            <Card>Pots</Card>
+            <BudgetCard />
             <Card>Transactions</Card>
           </div>
         </div>
