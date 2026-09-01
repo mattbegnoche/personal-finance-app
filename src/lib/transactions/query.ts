@@ -9,17 +9,14 @@ export const ALL_CATEGORIES = "all";
 
 export type CategoryFilter = TransactionCategory | typeof ALL_CATEGORIES;
 
-/**
- * Sort options offered in the UI, each mapped to the `_sort` value json-server
- * expects. A leading `-` reverses the field.
- */
+/** Sort options offered in the UI, in the order the design lists them. */
 export const TRANSACTION_SORT_OPTIONS = [
-  { value: "latest", label: "Latest", apiSort: "-date" },
-  { value: "oldest", label: "Oldest", apiSort: "date" },
-  { value: "a-to-z", label: "A to Z", apiSort: "name" },
-  { value: "z-to-a", label: "Z to A", apiSort: "-name" },
-  { value: "highest", label: "Highest", apiSort: "-amount" },
-  { value: "lowest", label: "Lowest", apiSort: "amount" },
+  { value: "latest", label: "Latest" },
+  { value: "oldest", label: "Oldest" },
+  { value: "a-to-z", label: "A to Z" },
+  { value: "z-to-a", label: "Z to A" },
+  { value: "highest", label: "Highest" },
+  { value: "lowest", label: "Lowest" },
 ] as const;
 
 export type TransactionSort =

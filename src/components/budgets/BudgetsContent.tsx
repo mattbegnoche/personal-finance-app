@@ -1,42 +1,28 @@
-import { unstable_rethrow } from "next/navigation";
+"use client";
+
 import type { ReactElement } from "react";
 import { BudgetDetailCard } from "./BudgetDetailCard";
 import { BudgetSummaryCard } from "./BudgetSummaryCard";
+import { BudgetsSkeleton } from "./BudgetsSkeleton";
+import { useFinanceData } from "@/components/providers/FinanceDataProvider";
 import { Notice } from "@/components/ui/Notice";
-import { ApiError } from "@/lib/api/fetch-json";
-import { loadBudgets, type BudgetsData } from "@/lib/budgets/load";
+import { toBudgetsData } from "@/lib/budgets/load";
 import { latestSpendingIn } from "@/lib/budgets/spending";
 
-/** Fetches and renders every budget with its spending for the month. */
-export async function BudgetsContent(): Promise<ReactElement> {
-  let data: BudgetsData;
+/** Every budget with its spending for the month. */
+export function BudgetsContent(): ReactElement {
+  const { data, isReady } = useFinanceData();
 
-  try {
-    data = await loadBudgets();
-  } catch (error) {
-    unstable_rethrow(error);
-    console.error("[budgets] could not load budgets", error);
+  if (!isReady) return <BudgetsSkeleton />;
 
-    return (
-      <Notice
-        icon="warning-circle"
-        tone="error"
-        title="Couldn't load budgets"
-        description={
-          error instanceof ApiError
-            ? error.message
-            : "Something went wrong loading your budgets. Please try again."
-        }
-      />
-    );
-  }
+  const budgets = toBudgetsData(data);
 
-  if (data.budgets.length === 0) {
+  if (budgets.length === 0) {
     return (
       <Notice
         icon="chart-donut"
         title="No budgets yet"
-        description="Budgets you create will show up here with your spending against them."
+        description="Add a budget to set a spending limit for a category and track what you spend against it."
       />
     );
   }
@@ -44,11 +30,11 @@ export async function BudgetsContent(): Promise<ReactElement> {
   return (
     <div className="grid-12 gap-sm items-start">
       <div className="sm:col-span-5">
-        <BudgetSummaryCard budgets={data.budgets} />
+        <BudgetSummaryCard budgets={budgets} />
       </div>
 
       <ul className="gap-sm grid sm:col-span-7">
-        {data.budgets.map((budget) => (
+        {budgets.map((budget) => (
           <BudgetDetailCard
             key={budget.id}
             budget={budget}

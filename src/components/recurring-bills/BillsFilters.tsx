@@ -16,7 +16,10 @@ export function BillsFilters({ query }: { query: BillQuery }): ReactElement {
   const { isPending, navigate, navigateDebounced } = useDebouncedNavigation();
 
   return (
-    <div aria-busy={isPending} className="mb-6 flex items-center gap-4 md:gap-6">
+    <div
+      aria-busy={isPending}
+      className="mb-6 flex items-center gap-4 md:gap-6"
+    >
       <InputField
         name="search"
         type="search"
@@ -37,11 +40,16 @@ export function BillsFilters({ query }: { query: BillQuery }): ReactElement {
         icon="sort"
         name="sort"
         value={query.sort}
-        options={BILL_SORT_OPTIONS.map(({ value, label }) => ({ value, label }))}
+        options={BILL_SORT_OPTIONS.map(({ value, label }) => ({
+          value,
+          label,
+        }))}
         // Re-parsed so an unexpected value falls back to the default sort.
         onChange={(sort) =>
           navigate(
-            toRecurringBillsHref(query, { sort: parseBillQuery({ sort }).sort }),
+            toRecurringBillsHref(query, {
+              sort: parseBillQuery({ sort }).sort,
+            }),
           )
         }
         triggerClassName="md:min-w-28"

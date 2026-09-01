@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import { BudgetCardActions } from "./BudgetCardActions";
 import { TransactionAmount } from "@/components/transactions/TransactionAmount";
 import { TransactionAvatar } from "@/components/transactions/TransactionAvatar";
 import { Button } from "@/components/ui/Button";
@@ -46,10 +47,11 @@ export function BudgetDetailCard({
         <Text
           as="h2"
           preset="preset-2"
-          className="text-grey-900 min-w-0 truncate"
+          className="text-grey-900 min-w-0 flex-1 truncate"
         >
           {budget.category}
         </Text>
+        <BudgetCardActions budget={budget} />
       </div>
 
       <Text preset="preset-4" className="text-grey-500 mb-4">

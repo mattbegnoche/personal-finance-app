@@ -1,6 +1,6 @@
 import { roundCurrency } from "@/lib/format";
 import { isInReferenceMonth, utcDayOfMonth } from "@/lib/reference-date";
-import { toAvatarSrc } from "@/lib/transactions/parse";
+import { toAvatarSrc } from "@/lib/store/seed";
 import type { Transaction } from "@/lib/transactions/types";
 
 export type BillStatus = "paid" | "due-soon" | "upcoming";

@@ -17,11 +17,14 @@ export function BillsList({
       {bills.map((bill) => (
         <li
           key={bill.id}
-          className="border-b border-grey-100 py-4 first:pt-0 last:border-b-0 last:pb-0"
+          className="border-grey-100 border-b py-4 first:pt-0 last:border-b-0 last:pb-0"
         >
           <div className="mb-2 flex items-center gap-4">
             <TransactionAvatar src={bill.avatar} className="size-8" />
-            <Text preset="preset-4-bold" className="min-w-0 truncate text-grey-900">
+            <Text
+              preset="preset-4-bold"
+              className="text-grey-900 min-w-0 truncate"
+            >
               {bill.name}
             </Text>
           </div>

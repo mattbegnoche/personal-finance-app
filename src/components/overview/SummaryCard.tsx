@@ -11,7 +11,7 @@ function SummaryCard({
   value: string;
 }) {
   return (
-    <Card theme={theme}>
+    <Card theme={theme} size="lg">
       <Text preset="preset-4" as="h2" className="mb-3">
         {title}
       </Text>

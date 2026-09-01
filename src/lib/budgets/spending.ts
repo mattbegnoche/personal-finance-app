@@ -1,7 +1,7 @@
 import { isInReferenceMonth } from "@/lib/reference-date";
 import { roundCurrency } from "@/lib/format";
 import type { Transaction } from "@/lib/transactions/types";
-import type { Budget } from "./api";
+import type { Budget } from "./types";
 
 /** A budget paired with what has been spent against it this month. */
 export interface BudgetWithSpending extends Budget {

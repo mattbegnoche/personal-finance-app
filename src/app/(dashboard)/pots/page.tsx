@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { DashboardTitle } from "@/components/dashboard/DashboardTitle";
+import { AddPotButton } from "@/components/pots/AddPotButton";
 import { PotsContent } from "@/components/pots/PotsContent";
-import { PotsSkeleton } from "@/components/pots/PotsSkeleton";
 
 const PAGE_NAME = "Pots";
 
@@ -13,11 +12,8 @@ export const metadata: Metadata = {
 export default function Pots() {
   return (
     <>
-      <DashboardTitle text={PAGE_NAME} />
-
-      <Suspense fallback={<PotsSkeleton />}>
-        <PotsContent />
-      </Suspense>
+      <DashboardTitle text={PAGE_NAME} action={<AddPotButton />} />
+      <PotsContent />
     </>
   );
 }

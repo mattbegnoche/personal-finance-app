@@ -1,27 +1,20 @@
+"use client";
+
 import type { ReactElement } from "react";
 import { TransactionsList } from "./TransactionsList";
 import { TransactionsPagination } from "./TransactionsPagination";
+import { TransactionsSkeleton } from "./TransactionsSkeleton";
 import { TransactionsTable } from "./TransactionsTable";
-import { unstable_rethrow } from "next/navigation";
-
+import { useFinanceData } from "@/components/providers/FinanceDataProvider";
 import { Button } from "@/components/ui/Button";
 import { Notice } from "@/components/ui/Notice";
 import { Text } from "@/components/ui/Text";
-import { ApiError } from "@/lib/api/fetch-json";
-import { fetchTransactions } from "@/lib/transactions/api";
+import { applyTransactionQuery } from "@/lib/transactions/filter";
 import {
   DEFAULT_TRANSACTION_QUERY,
   toTransactionsHref,
   type TransactionQuery,
 } from "@/lib/transactions/query";
-import type { TransactionsPage } from "@/lib/transactions/types";
-
-/** Only an `ApiError` carries a message written for a person to read. */
-function toUserMessage(error: unknown): string {
-  return error instanceof ApiError
-    ? error.message
-    : "Something went wrong loading your transactions. Please try again.";
-}
 
 function isFiltered(query: TransactionQuery): boolean {
   return (
@@ -30,37 +23,17 @@ function isFiltered(query: TransactionQuery): boolean {
   );
 }
 
-interface TransactionsResultsProps {
-  query: TransactionQuery;
-}
-
-/**
- * Fetches and renders one page of transactions.
- *
- * Failures are caught here rather than left to an error boundary, so the
- * filters above stay usable and changing one doubles as the retry.
- */
-export async function TransactionsResults({
+/** One page of transactions matching the current filters. */
+export function TransactionsResults({
   query,
-}: TransactionsResultsProps): Promise<ReactElement> {
-  let page: TransactionsPage;
+}: {
+  query: TransactionQuery;
+}): ReactElement {
+  const { data, isReady } = useFinanceData();
 
-  try {
-    page = await fetchTransactions(query);
-  } catch (error) {
-    unstable_rethrow(error);
+  if (!isReady) return <TransactionsSkeleton />;
 
-    console.error("[transactions] could not load page", error);
-
-    return (
-      <Notice
-        icon="warning-circle"
-        tone="error"
-        title="Couldn't load transactions"
-        description={toUserMessage(error)}
-      />
-    );
-  }
+  const page = applyTransactionQuery(data.transactions, query);
 
   if (page.totalItems === 0) {
     return (

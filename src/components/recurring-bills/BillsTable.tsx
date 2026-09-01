@@ -19,7 +19,7 @@ export function BillsTable({
       <table className="w-full min-w-120 border-collapse">
         <caption className="sr-only">Recurring bills</caption>
         <thead>
-          <tr className="border-b border-grey-100 text-preset-5 text-grey-500">
+          <tr className="border-grey-100 text-preset-5 text-grey-500 border-b">
             <th scope="col" className={`${CELL} pb-3 text-left font-normal`}>
               Bill Title
             </th>
@@ -33,7 +33,10 @@ export function BillsTable({
         </thead>
         <tbody>
           {bills.map((bill) => (
-            <tr key={bill.id} className="border-b border-grey-100 last:border-b-0">
+            <tr
+              key={bill.id}
+              className="border-grey-100 border-b last:border-b-0"
+            >
               <th scope="row" className={`${CELL} py-4 text-left`}>
                 <span className="flex items-center gap-4">
                   <TransactionAvatar src={bill.avatar} className="size-8" />

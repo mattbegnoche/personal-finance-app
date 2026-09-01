@@ -4,7 +4,7 @@ import {
   sumBudgets,
   toBudgetsWithSpending,
 } from "./spending";
-import type { Budget } from "./api";
+import type { Budget } from "./types";
 import type { Transaction } from "@/lib/transactions/types";
 
 const REFERENCE = new Date("2024-08-19T20:23:11Z");

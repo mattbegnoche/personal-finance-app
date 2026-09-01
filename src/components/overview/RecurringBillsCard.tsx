@@ -1,91 +1,65 @@
-import { unstable_rethrow } from "next/navigation";
+"use client";
+
 import type { ReactElement } from "react";
 import OverviewCardTop from "./OverviewCardTop";
 import { Card } from "../ui/Card";
 import { Text } from "../ui/Text";
-import { ApiError } from "@/lib/api/fetch-json";
+import { useFinanceData } from "@/components/providers/FinanceDataProvider";
 import { formatCurrency } from "@/lib/format";
-import { loadRecurringBills } from "@/lib/recurring-bills/load";
-import type { BillSummary } from "@/lib/recurring-bills/bills";
+import { toRecurringBillsData } from "@/lib/recurring-bills/load";
 
-const ROW = "flex items-center justify-between gap-4 rounded-lg border-l-4 bg-beige-100 p-4";
+const ROW =
+  "flex items-center justify-between gap-4 rounded-lg border-l-4 bg-beige-100 p-4";
 
-function CardShell({ children }: { children: ReactElement }): ReactElement {
-  return (
-    <Card>
-      <OverviewCardTop href="/recurring-bills" label="Recurring Bills" />
-      {children}
-    </Card>
-  );
-}
+/** Overview summary of this month's bills, linking through to the full page. */
+export function RecurringBillsCard(): ReactElement {
+  const { data, isReady } = useFinanceData();
+  const { summary } = toRecurringBillsData(data);
 
-/** Compact stand-in shown while the card's data is in flight. */
-export function RecurringBillsCardSkeleton(): ReactElement {
-  return (
-    <CardShell>
-      <div>
+  if (!isReady) {
+    return (
+      <Card size="lg">
+        <OverviewCardTop href="/recurring-bills" label="Recurring Bills" />
         <p role="status" className="sr-only">
           Loading recurring bills
         </p>
         <ul aria-hidden="true" className="grid animate-pulse gap-3">
           {[0, 1, 2].map((row) => (
             <li key={row} className={`${ROW} border-l-grey-100`}>
-              <div className="h-3 w-28 rounded bg-grey-100" />
-              <div className="h-3 w-16 rounded bg-grey-100" />
+              <div className="bg-grey-100 h-3 w-28 rounded" />
+              <div className="bg-grey-100 h-3 w-16 rounded" />
             </li>
           ))}
         </ul>
-      </div>
-    </CardShell>
-  );
-}
-
-/**
- * Overview summary of this month's bills, linking through to the full page.
- *
- * A failure degrades to a short message rather than taking down the rest of the
- * Overview page.
- */
-export async function RecurringBillsCard(): Promise<ReactElement> {
-  let summary: BillSummary;
-
-  try {
-    ({ summary } = await loadRecurringBills());
-  } catch (error) {
-    unstable_rethrow(error);
-    console.error("[overview] could not load recurring bills", error);
-
-    return (
-      <CardShell>
-        <Text role="alert" preset="preset-4" className="py-4 text-grey-500">
-          {error instanceof ApiError
-            ? error.message
-            : "Something went wrong loading your recurring bills."}
-        </Text>
-      </CardShell>
+      </Card>
     );
   }
 
   const rows = [
     { label: "Paid Bills", totals: summary.paid, border: "border-l-green" },
-    { label: "Total Upcoming", totals: summary.upcoming, border: "border-l-yellow" },
+    {
+      label: "Total Upcoming",
+      totals: summary.upcoming,
+      border: "border-l-yellow",
+    },
     { label: "Due Soon", totals: summary.dueSoon, border: "border-l-cyan" },
   ];
 
   return (
-    <CardShell>
+    <Card size="lg">
+      <OverviewCardTop href="/recurring-bills" label="Recurring Bills" />
       <ul className="grid gap-3">
         {rows.map((row) => (
           <li key={row.label} className={`${ROW} ${row.border}`}>
-            <Text preset="preset-4" className="min-w-0 truncate text-grey-500">
+            <Text preset="preset-4" className="text-grey-500 min-w-0 truncate">
               {row.label}
             </Text>
-            <Text preset="preset-4-bold" className="shrink-0 text-grey-900">
+            <Text preset="preset-4-bold" className="text-grey-900 shrink-0">
               {formatCurrency(row.totals.total, 2)}
             </Text>
           </li>
         ))}
       </ul>
-    </CardShell>
+    </Card>
   );
 }

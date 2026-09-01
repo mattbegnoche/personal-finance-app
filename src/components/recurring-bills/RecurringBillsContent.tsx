@@ -1,13 +1,18 @@
-import { unstable_rethrow } from "next/navigation";
+"use client";
+
 import type { ReactElement } from "react";
 import { BillsList } from "./BillsList";
 import { BillsSummary } from "./BillsSummary";
 import { BillsTable } from "./BillsTable";
+import {
+  BillsListSkeleton,
+  BillsSummarySkeleton,
+} from "./RecurringBillsSkeleton";
+import { useFinanceData } from "@/components/providers/FinanceDataProvider";
 import { Button } from "@/components/ui/Button";
 import { Notice } from "@/components/ui/Notice";
 import { Text } from "@/components/ui/Text";
-import { ApiError } from "@/lib/api/fetch-json";
-import { loadRecurringBills, type RecurringBillsData } from "@/lib/recurring-bills/load";
+import { toRecurringBillsData } from "@/lib/recurring-bills/load";
 import {
   DEFAULT_BILL_QUERY,
   applyBillQuery,
@@ -15,56 +20,22 @@ import {
   type BillQuery,
 } from "@/lib/recurring-bills/query";
 
-/** Shared failure notice for both panels, so one outage message reads the same. */
-function LoadError({ error }: { error: unknown }): ReactElement {
-  return (
-    <Notice
-      icon="warning-circle"
-      tone="error"
-      title="Couldn't load bills"
-      description={
-        error instanceof ApiError
-          ? error.message
-          : "Something went wrong loading your bills. Please try again."
-      }
-    />
-  );
-}
+/** The month's totals, beside the list. */
+export function BillsSummaryPanel(): ReactElement {
+  const { data, isReady } = useFinanceData();
 
-/** The month's totals. Streams separately from the list beside it. */
-export async function BillsSummaryPanel(): Promise<ReactElement> {
-  let data: RecurringBillsData;
+  if (!isReady) return <BillsSummarySkeleton />;
 
-  try {
-    data = await loadRecurringBills();
-  } catch (error) {
-    unstable_rethrow(error);
-    console.error("[recurring-bills] could not load summary", error);
-
-    return <LoadError error={error} />;
-  }
-
-  return <BillsSummary summary={data.summary} />;
+  return <BillsSummary summary={toRecurringBillsData(data).summary} />;
 }
 
 /** The filtered, sorted list of bills. */
-export async function BillsResults({
-  query,
-}: {
-  query: BillQuery;
-}): Promise<ReactElement> {
-  let data: RecurringBillsData;
+export function BillsResults({ query }: { query: BillQuery }): ReactElement {
+  const { data, isReady } = useFinanceData();
 
-  try {
-    data = await loadRecurringBills();
-  } catch (error) {
-    unstable_rethrow(error);
-    console.error("[recurring-bills] could not load bills", error);
+  if (!isReady) return <BillsListSkeleton />;
 
-    return <LoadError error={error} />;
-  }
-
-  const bills = applyBillQuery(data.bills, query);
+  const bills = applyBillQuery(toRecurringBillsData(data).bills, query);
 
   if (bills.length === 0) {
     return (

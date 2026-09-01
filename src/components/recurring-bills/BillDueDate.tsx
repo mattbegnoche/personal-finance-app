@@ -7,7 +7,11 @@ import type { BillStatus } from "@/lib/recurring-bills/bills";
 /** A paid bill is confirmed, a due-soon one is a warning; upcoming needs no mark. */
 const STATUS_ICON = {
   paid: { name: "check-circle", className: "text-green", label: "Paid" },
-  "due-soon": { name: "warning-circle", className: "text-red", label: "Due soon" },
+  "due-soon": {
+    name: "warning-circle",
+    className: "text-red",
+    label: "Due soon",
+  },
 } as const;
 
 interface BillDueDateProps {

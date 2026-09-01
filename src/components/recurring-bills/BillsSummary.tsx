@@ -20,10 +20,13 @@ function SummaryRow({
   isUrgent = false,
 }: SummaryRowProps): ReactElement {
   return (
-    <li className="flex items-center justify-between gap-4 border-b border-grey-500/15 py-4 first:pt-0 last:border-b-0 last:pb-0">
+    <li className="border-grey-500/15 flex items-center justify-between gap-4 border-b py-4 first:pt-0 last:border-b-0 last:pb-0">
       <Text
         preset="preset-5"
-        className={cn("min-w-0 truncate", isUrgent ? "text-red" : "text-grey-500")}
+        className={cn(
+          "min-w-0 truncate",
+          isUrgent ? "text-red" : "text-grey-500",
+        )}
       >
         {label} ({count})
       </Text>
@@ -54,7 +57,7 @@ export function BillsSummary({
       </Card>
 
       <Card size="lg">
-        <Text as="h2" preset="preset-3" className="mb-5 text-grey-900">
+        <Text as="h2" preset="preset-3" className="text-grey-900 mb-5">
           Summary
         </Text>
         <ul>

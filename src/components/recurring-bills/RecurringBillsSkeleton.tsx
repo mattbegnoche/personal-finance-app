@@ -12,9 +12,9 @@ export function BillsSummarySkeleton(): ReactElement {
       </p>
       <Card theme="dark" size="lg">
         <div aria-hidden="true" className="animate-pulse">
-          <div className="mb-8 size-8 rounded bg-grey-500" />
-          <div className="mb-3 h-3 w-24 rounded bg-grey-500" />
-          <div className="h-8 w-32 rounded bg-grey-500" />
+          <div className="bg-grey-500 mb-8 size-8 rounded" />
+          <div className="bg-grey-500 mb-3 h-3 w-24 rounded" />
+          <div className="bg-grey-500 h-8 w-32 rounded" />
         </div>
       </Card>
       <Card size="lg">
@@ -23,7 +23,7 @@ export function BillsSummarySkeleton(): ReactElement {
           {[0, 1, 2].map((row) => (
             <div
               key={row}
-              className="flex items-center justify-between gap-4 border-b border-grey-500/15 py-4 last:border-b-0"
+              className="border-grey-500/15 flex items-center justify-between gap-4 border-b py-4 last:border-b-0"
             >
               <div className={`${BAR} h-3 w-28`} />
               <div className={`${BAR} h-3 w-16`} />
@@ -46,9 +46,9 @@ export function BillsListSkeleton(): ReactElement {
         {Array.from({ length: 8 }, (_, row) => (
           <div
             key={row}
-            className="flex items-center gap-4 border-b border-grey-100 py-4 first:pt-0 last:border-b-0"
+            className="border-grey-100 flex items-center gap-4 border-b py-4 first:pt-0 last:border-b-0"
           >
-            <div className="size-8 shrink-0 rounded-full bg-grey-100" />
+            <div className="bg-grey-100 size-8 shrink-0 rounded-full" />
             <div className={`${BAR} h-3 flex-1`} />
             <div className={`${BAR} hidden h-3 w-28 md:block`} />
             <div className={`${BAR} h-3 w-16 shrink-0`} />
