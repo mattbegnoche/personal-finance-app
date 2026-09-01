@@ -1,18 +1,38 @@
+import type { ReactElement, ReactNode } from "react";
 import { Text } from "./Text";
+import { cn } from "@/lib/cn";
 
+interface MicroDetailProps {
+  /** Small label above the figure. Takes a node so skeletons can pass a placeholder. */
+  title: ReactNode;
+  /** The figure itself. Takes a node so skeletons can pass a placeholder. */
+  detail: ReactNode;
+  /** CSS color for the leading bar. Defaults to the neutral bar in the design. */
+  color?: string;
+  className?: string;
+}
+
+/** A labelled figure with a coloured bar down its left edge. */
 export function MicroDetail({
   title,
   detail,
-}: {
-  title: string;
-  detail: string;
-}) {
+  color,
+  className,
+}: MicroDetailProps): ReactElement {
   return (
-    <li className="flex gap-4">
-      <div className="bg-grey-900 w-1 rounded-lg"></div>
-      <div className="flex flex-col gap-2">
-        <Text preset="preset-5">{title}</Text>
-        <Text preset="preset-4-bold">{detail}</Text>
+    <li className={cn("flex gap-4", className)}>
+      <div
+        aria-hidden="true"
+        className={cn("w-1 shrink-0 rounded-lg", !color && "bg-grey-900")}
+        style={color ? { backgroundColor: color } : undefined}
+      />
+      <div className="flex min-w-0 flex-col gap-2">
+        <Text preset="preset-5" className="text-grey-500 truncate">
+          {title}
+        </Text>
+        <Text preset="preset-4-bold" className="text-grey-900 truncate">
+          {detail}
+        </Text>
       </div>
     </li>
   );

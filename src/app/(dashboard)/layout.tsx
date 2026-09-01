@@ -10,9 +10,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
       {/* Bottom padding clears the fixed mobile nav. */}
       <main className="min-w-0 flex-1 py-6 pb-28 md:py-8 lg:pb-8">
-        <Container size="md" className="ml-0">
-          {children}
-        </Container>
+        <Container size="md">{children}</Container>
       </main>
 
       <MobileNav />

@@ -1,10 +1,14 @@
-import type { IconProps as PhosphorIconProps, IconWeight } from "@phosphor-icons/react/lib";
+import type {
+  IconProps as PhosphorIconProps,
+  IconWeight,
+} from "@phosphor-icons/react/lib";
 import {
   ArrowFatLinesLeft,
   ArrowsDownUp,
   Barbell,
   BookOpenText,
   CaretDown,
+  CaretLeft,
   CaretRight,
   CaretUp,
   ChartDonut,
@@ -40,6 +44,7 @@ const ICONS = {
   barbell: Barbell,
   "book-open-text": BookOpenText,
   "caret-down": CaretDown,
+  "caret-left": CaretLeft,
   "caret-right": CaretRight,
   "caret-up": CaretUp,
   "chart-donut": ChartDonut,

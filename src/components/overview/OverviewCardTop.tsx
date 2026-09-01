@@ -5,10 +5,13 @@ import { Text } from "../ui/Text";
 function OverviewCardTop({
   label,
   href,
+  actionLabel = "See Details",
   className,
 }: {
   label: string;
   href: string;
+  /** Text on the trailing link. Defaults to the design's "See Details". */
+  actionLabel?: string;
   className?: string;
 }) {
   return (
@@ -22,7 +25,7 @@ function OverviewCardTop({
         {label}
       </Text>
       <Button variant="tertiary" href={href}>
-        See Details
+        {actionLabel}
       </Button>
     </div>
   );
